@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sorting Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Sorting Visualizer</h1>
+        <p>Visualize different sorting algorithms in action!</p>
+    </header>
+    <div class="controls">
+        <div>
+            <label for="arrayInput">Enter Array (comma-separated):</label>
+            <input type="text" id="arrayInput" placeholder="e.g., 34, 7, 23, 32, 5, 62">
+        </div>
+        <div>
+            <label for="sortAlgorithm">Select Sorting Algorithm:</label>
+            <select id="sortAlgorithm">
+                <option value="bubble">Bubble Sort</option>
+                <option value="selection">Selection Sort</option>
+                <option value="insertion">Insertion Sort</option>
+                <option value="merge">Merge Sort</option>
+                <option value="quick">Quick Sort</option>
+                <option value="heap">Heap Sort</option>
+                <option value="shell">Shell Sort</option>
+                <option value="counting">Counting Sort</option>
+                <option value="radix">Radix Sort</option>
+                <option value="bucket">Bucket Sort</option>
+                <option value="comb">Comb Sort</option>
+            </select>
+        </div>
+        <div>
+            <label for="speed">Animation Speed (ms):</label>
+            <input type="number" id="speed" min="100" value="500">
+        </div>
+        <button onclick="startSorting()">Start Sorting</button>
+    </div>
+    <div id="arrayContainer"></div>
+    <div id="codeContainer"></div>
+    <div id="explanationContainer"></div>
+    <footer>
+        <p>Created with ❤️ by Anubhav Mishra</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
