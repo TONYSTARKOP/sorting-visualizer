@@ -253,20 +253,32 @@ async function countingSortByDigit(arr, exp, delay) {
 
 async function bucketSort(delay) {
     const max = Math.max(...array);
-    const bucketCount = Math.floor(max / 10) + 1;
+    const bucketCount = Math.floor(max / 10) + 1; // Number of buckets
     const buckets = Array.from({ length: bucketCount }, () => []);
 
+    // Distribute input array values into buckets
     for (let i = 0; i < array.length; i++) {
-        const index = Math.floor(array[i] / 10);
+        const index = Math.floor(array[i] / 10); // Determine bucket index
         buckets[index].push(array[i]);
     }
 
+    // Sort individual buckets and visualize
     for (let i = 0; i < buckets.length; i++) {
-        buckets[i].sort((a, b) => a - b); // Sort individual buckets
+        if (buckets[i].length > 0) {
+            buckets[i].sort((a, b) => a - b); // Sort individual buckets
+            for (let j = 0; j < buckets[i].length; j++) {
+                array.push(buckets[i][j]);
+                drawArray([array.length - 1]);
+                await new Promise(resolve => setTimeout(resolve, delay));
+            }
+        }
+    }
+
+    // Clear the original array and fill it with sorted values from buckets
+    array = [];
+    for (let i = 0; i < buckets.length; i++) {
         for (let j = 0; j < buckets[i].length; j++) {
             array.push(buckets[i][j]);
-            drawArray([array.length - 1]);
-            await new Promise(resolve => setTimeout(resolve, delay));
         }
     }
     drawArray(); // Final draw
