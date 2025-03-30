@@ -41,9 +41,11 @@ async function selectionSort(delay) {
                 minIndex = j;
             }
         }
-        [array[i], array[minIndex]] = [array[minIndex], array[i]]; // Swap
-        drawArray([i, minIndex]);
-        await new Promise(resolve => setTimeout(resolve, delay));
+        if (minIndex !== i) {
+            [array[i], array[minIndex]] = [array[minIndex], array[i]]; // Swap
+            drawArray([i, minIndex]);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
     }
     drawArray(); // Final draw
 }
@@ -216,6 +218,82 @@ async function countingSort(delay) {
     drawArray(); // Final draw
 }
 
+async function radixSort(delay) {
+    const max = Math.max(...array);
+    for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+        await countingSortByDigit(array, exp, delay);
+    }
+    drawArray(); // Final draw
+}
+
+async function countingSortByDigit(arr, exp, delay) {
+    const n = arr.length;
+    const output = new Array(n);
+    const count = new Array(10).fill(0);
+
+    for (let i = 0; i < n; i++) {
+        count[Math.floor(arr[i] / exp) % 10]++;
+    }
+
+    for (let i = 1; i < 10; i++) {
+        count[i] += count[i - 1];
+    }
+
+    for (let i = n - 1; i >= 0; i--) {
+        output[count[Math.floor(arr[i] / exp) % 10] - 1] = arr[i];
+        count[Math.floor(arr[i] / exp) % 10]--;
+        drawArray([i]);
+        await new Promise(resolve => setTimeout(resolve, delay));
+    }
+
+    for (let i = 0; i < n; i++) {
+        arr[i] = output[i];
+    }
+}
+
+async function bucketSort(delay) {
+    const max = Math.max(...array);
+    const bucketCount = Math.floor(max / 10) + 1;
+    const buckets = Array.from({ length: bucketCount }, () => []);
+
+    for (let i = 0; i < array.length; i++) {
+        const index = Math.floor(array[i] / 10);
+        buckets[index].push(array[i]);
+    }
+
+    for (let i = 0; i < buckets.length; i++) {
+        buckets[i].sort((a, b) => a - b); // Sort individual buckets
+        for (let j = 0; j < buckets[i].length; j++) {
+            array.push(buckets[i][j]);
+            drawArray([array.length - 1]);
+            await new Promise(resolve => setTimeout(resolve, delay));
+        }
+    }
+    drawArray(); // Final draw
+}
+
+async function combSort(delay) {
+    const n = array.length;
+    let gap = n;
+    let swapped = true;
+
+    while (gap !== 1 || swapped) {
+        gap = Math.floor(gap / 1.3);
+        if (gap < 1) gap = 1;
+        swapped = false;
+
+        for (let i = 0; i < n - gap; i++) {
+            if (array[i] > array[i + gap]) {
+                [array[i], array[i + gap]] = [array[i + gap], array[i]]; // Swap
+                drawArray([i, i + gap]);
+                await new Promise(resolve => setTimeout(resolve, delay));
+                swapped = true;
+            }
+        }
+    }
+    drawArray(); // Final draw
+}
+
 async function startSorting() {
     generateArray(); // Generate array from input
     const algorithm = document.getElementById('sortAlgorithm').value;
@@ -278,7 +356,7 @@ function displayAlgorithmCode(algorithm) {
             code = `void countingSort(int arr[], int n) {\n    int max = Math.max(...arr);\n    int count[max + 1] = {0};\n    int output[n];\n    for (int i = 0; i < n; i++) {\n        count[arr[i]]++;\n    }\n    for (int i = 1; i <= max; i++) {\n        count[i] += count[i - 1];\n    }\n    for (int i = n - 1; i >= 0; i--) {\n        output[count[arr[i]] - 1] = arr[i];\n        count[arr[i]]--;\n    }\n    for (int i = 0; i < n; i++) {\n        arr[i] = output[i];\n    }\n}`;
             break;
         case 'radix':
-            code = `void radixSort(int arr[], int n) {\n    int max = getMax(arr, n);\n    for (int exp = 1; max / exp > 0; exp *= 10) {\n        countingSort(arr, n, exp);\n    }\n}`;
+            code = `void radixSort(int arr[], int n) {\n    int max = getMax(arr, n);\n    for (int exp = 1; max / exp > 0; exp *= 10) {\n        countingSortByDigit(arr, n, exp);\n    }\n}`;
             break;
         case 'bucket':
             code = `void bucketSort(float arr[], int n) {\n    // Create n empty buckets\n    vector<float> b[n];\n    for (int i = 0; i < n; i++) {\n        int bi = n * arr[i]; // Index in bucket\n        b[bi].push_back(arr[i]);\n    }\n    // Sort individual buckets\n    for (int i = 0; i < n; i++) {\n        sort(b[i].begin(), b[i].end());\n    }\n    // Concatenate all buckets\n    int index = 0;\n    for (int i = 0; i < n; i++) {\n        for (int j = 0; j < b[i].size(); j++) {\n            arr[index++] = b[i][j];\n        }\n    }\n}`;
