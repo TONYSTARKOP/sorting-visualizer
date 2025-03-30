@@ -21,6 +21,12 @@ A web-based sorting visualizer that allows users to input an array of numbers an
 - Explanations of each sorting algorithm.
 - Adjustable animation speed for better understanding.
 
+
+## Demo
+
+![Sorting Visualizer Demo](example.gif)
+
+
 ## Technologies Used
 
 - HTML
