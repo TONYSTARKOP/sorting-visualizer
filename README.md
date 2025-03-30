@@ -32,7 +32,7 @@ A web-based sorting visualizer that allows users to input an array of numbers an
 
 1. Clone the repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/sorting-visualizer.git
+   git clone https://github.com/TONYSTARKOP/sorting-visualizer.git
    ```
 2. Navigate to the project directory:
    ```bash
@@ -52,9 +52,6 @@ A web-based sorting visualizer that allows users to input an array of numbers an
 
 Contributions are welcome! If you have suggestions for improvements or new features, feel free to open an issue or submit a pull request.
 
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Acknowledgments
 
@@ -63,4 +60,4 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 
 ## Contact
 
-For any inquiries or feedback, please reach out to [Your Name](mailto:your.email@example.com).
+For any inquiries or feedback, please reach out to [Anubhav Mishra](mailto:anubhav09.work@gmail.com).
